@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить зверька</title>
+</head>
+<body>
+    <form method="POST" th:action="@{/animals}" th:object="${animal}">
+        <label for="name">Введите название</label>
+        <input type="text" th:field="*{name}" id="name"/>
+        <br/>
+        <input type="submit" value="Создать!"/>
+    </form>
+    <form method="POST" th:action="@{/animals/crt}">
+        <label for="name_o">Введите название</label>
+        <input type="text" th:name="name_o" id="name_o"/>
+        <br/>
+        <input type="submit" value="Добавить"/>
+    </form>
+</body>
+</html>
