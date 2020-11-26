@@ -20,33 +20,52 @@ public class AnimalsController {
     }
 
     @GetMapping
-    public String index(Model model){
+    public String index(Model model) {
         model.addAttribute("animals", animalDAO.animals());
         return "animals/index";
     }
 
     @GetMapping("/{id}")
-    public String show(@PathVariable("id") int id, Model model){
+    public String show(@PathVariable("id") int id, Model model) {
         model.addAttribute("animal", animalDAO.animal(id));
         return "animals/show";
     }
 
     @GetMapping("/new")
-    public String newAnimal(Model model){
+    public String newAnimal(Model model) {
         model.addAttribute("animal", new Animal());
         return "/animals/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("animal") Animal animal){
+    public String create(@ModelAttribute("animal") Animal animal) {
         animalDAO.save(animal);
         return "redirect:/animals";
     }
+
     @PostMapping("/crt")
-    public String crt(@RequestParam("name_o") String name){
+    public String crt(@RequestParam("name_o") String name) {
         Animal animal = new Animal();
         animal.setName(name);
         animalDAO.save(animal);
+        return "redirect:/animals";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit(Model model, @PathVariable("id") int id) {
+        model.addAttribute("animal", animalDAO.animal(id));
+        return "animals/edit";
+    }
+
+    @PatchMapping("/{id}")
+    public String update(@ModelAttribute("animal") Animal animal, @PathVariable("id") int id){
+        animalDAO.update(id, animal);
+        return "redirect:/animals";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id){
+        animalDAO.delete(id);
         return "redirect:/animals";
     }
 }
