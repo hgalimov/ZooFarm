@@ -3,9 +3,12 @@ package ru.uennar.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.uennar.dao.AnimalDAO;
 import ru.uennar.models.Animal;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/animals")
@@ -38,15 +41,11 @@ public class AnimalsController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute("animal") Animal animal) {
-        animalDAO.save(animal);
-        return "redirect:/animals";
-    }
-
-    @PostMapping("/crt")
-    public String crt(@RequestParam("name_o") String name) {
-        Animal animal = new Animal();
-        animal.setName(name);
+    public String create(@ModelAttribute("animal") @Valid Animal animal,
+                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return "/animals/new";
+        }
         animalDAO.save(animal);
         return "redirect:/animals";
     }
@@ -58,7 +57,11 @@ public class AnimalsController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("animal") Animal animal, @PathVariable("id") int id){
+    public String update(@ModelAttribute("animal") @Valid Animal animal, BindingResult bindingResult,
+                         @PathVariable("id") int id){
+        if (bindingResult.hasErrors()){
+            return "animals/edit";
+        }
         animalDAO.update(id, animal);
         return "redirect:/animals";
     }

@@ -13,9 +13,9 @@ public class AnimalDAO {
 
     {
         animals = new ArrayList<>();
-        animals.add(new Animal(++count, "fennec"));
-        animals.add(new Animal(++count, "hamster"));
-        animals.add(new Animal(++count, "gopher"));
+        animals.add(new Animal(++count, "fennec", 2, "john@test.com"));
+        animals.add(new Animal(++count, "hamster", 1, "nick@test.com"));
+        animals.add(new Animal(++count, "gopher", 3, "ben@test.com"));
     }
 
     public List<Animal> animals() {
@@ -34,6 +34,8 @@ public class AnimalDAO {
     public void update(int id, Animal animal) {
         Animal animalToUpd = animal(id);
         animalToUpd.setName(animal.getName());
+        animalToUpd.setAge(animal.getAge());
+        animalToUpd.setEmailNurseryMan(animal.getEmailNurseryMan());
     }
 
     public void delete(int id) {

@@ -6,6 +6,8 @@
 </head>
 <p th:text="${animal.getName()}">name</p>
 <p th:text="${animal.getId()}">id</p>
+<p th:text="${animal.getAge()}">возраст</p>
+<p th:text="${animal.getEmailNurseryMan()}">почта воспитателя</p>
 
 <a th:href="@{/animals/{id}/edit(id=${animal.getId()})}">Редактировать</a>
 

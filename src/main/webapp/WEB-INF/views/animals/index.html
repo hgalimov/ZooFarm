@@ -5,7 +5,8 @@
     <title>Список зверьков</title>
 </head>
 <div th:each="animal:${animals}">
-    <a th:href="@{/animals/{id}(id=${animal.getId()})}" th:text="${animal.getName()}">animal</a>
+    <a th:href="@{/animals/{id}(id=${animal.getId()})}" th:text="${animal.getName() +
+    animal.getAge() + animal.getEmailNurseryMan()}">animal</a>
 </div>
 
 <br/>
