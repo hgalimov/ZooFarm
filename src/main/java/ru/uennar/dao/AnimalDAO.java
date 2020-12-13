@@ -47,30 +47,58 @@ public class AnimalDAO {
     }
 
     public Animal animal(int id) {
-        return null;
+        PreparedStatement pstmt = null;
+        Animal animal = null;
+        try {
+            pstmt = connection.prepareStatement("SELECT * FROM Animal WHERE id = ?");
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            animal = new Animal();
+            animal.setId(rs.getInt("id"));
+            animal.setName(rs.getString("name"));
+            animal.setAge(rs.getInt("age"));
+            animal.setEmailNurseryMan(rs.getString("emailNurseryMan"));
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return animal;
     }
 
     public void save(Animal animal) {
-        try (Statement st = connection.createStatement()) {
-            count++;
-            String SQL = "INSERT INTO Animal VALUES(" + count + ",'" + animal.getName() +
-                    "'," + animal.getAge() + ",'" + animal.getEmailNurseryMan() + "')";
-
-            st.executeUpdate(SQL);
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO Animal VALUES(?, ?, ?, ?)");
+            pstmt.setInt(1, ++count);
+            pstmt.setString(2, animal.getName());
+            pstmt.setInt(3, animal.getAge());
+            pstmt.setString(4, animal.getEmailNurseryMan());
+            pstmt.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
     }
 
     public void update(int id, Animal animal) {
-       /* Animal animalToUpd = animal(id);
-        animalToUpd.setName(animal.getName());
-        animalToUpd.setAge(animal.getAge());
-        animalToUpd.setEmailNurseryMan(animal.getEmailNurseryMan());*/
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE Animal SET name=?, age=?, " +
+                    "emailNurseryMan=? WHERE id=?");
+            pstmt.setString(1, animal.getName());
+            pstmt.setInt(2, animal.getAge());
+            pstmt.setString(3, animal.getEmailNurseryMan());
+            pstmt.setInt(4, id);
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public void delete(int id) {
-
-        /*animals.removeIf(a -> a.getId() == id);*/
+        try {
+            PreparedStatement pstmt = connection.prepareStatement("DELETE Animal WHERE id=?");
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 }
