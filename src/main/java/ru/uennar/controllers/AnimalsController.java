@@ -30,7 +30,7 @@ public class AnimalsController {
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("animal", animalDAO.animal(id));
+        model.addAttribute("animal", animalDAO.show(id));
         return "animals/show";
     }
 
@@ -52,7 +52,7 @@ public class AnimalsController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("animal", animalDAO.animal(id));
+        model.addAttribute("animal", animalDAO.show(id));
         return "animals/edit";
     }
 
